@@ -1,0 +1,29 @@
+    1)pgrep -f sh 
+    pgrep //выводит только PID процесса
+    -f //ищет по имени процесса sh
+
+    2)cd var/www/html/logs  //переходим в папку с файлами
+    cat *.txt > all.txt  //cat *.txt получаем содержимое всех .txt файлов, и обьединяем их в файл all.txt
+
+    3)basename -s .jpg /var/www/html/images/cat.jpg /var/www/html/images/dog.jpg // выводим список имен файлов, команда -s .jpg удаляет расширение, выводится только имя без пути
+
+    4)Создаем  скрипт в файле txt.bash в папке с файлами logs
+    #!/bin/bash
+
+    shopt -s globstar 
+    echo -n "" > dict
+    for file in **/*.txt ; do
+      hash=$(echo -n "$file" | md5sum | awk '{print $1}')
+      mv $file $hash
+      echo "$file  $hash" >> dict
+      echo "$file  $hash"
+    done
+    Запускаем скрипт из этой папки
+
+    5)sudo chown 1200:www-data ~/var/www/html/images //задаем юзера и группу для папки
+    sudo chmod 770 var/www/html/images/  //задаем права доступа, 770 значит что к папке только юзер и группа имеют права чтение/запись на всю директорию и на файлы внутри директории остальные не имеют доступа к папке и файлам и исполнения файлов. 7 это все разрешения для категории
+
+    6)cp -f var/www/html/logs/access.txt access.txt //
+    -f перезапись существующих файлов; копирование из файла источника в файл приемник
+
+    7)find ./var/www/html/img -size +3M -name "cat*" //список файлов в папке по условиям, -size +3М более 3Мб вес файла, -name "cat*" содержащие в имени эту строку
